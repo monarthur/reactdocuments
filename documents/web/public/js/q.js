@@ -73,6 +73,54 @@ var q, Q;
             })
             .join("&");
   }
+    //ajax methods
+  var ajaxGet = function (url, params, isJson) {
+      var promise = new Promise(function (resolve, reject) {
+          var xhr = new XMLHttpRequest();
+          xhr.onload = function () {
+              if (this.status >= 200 && this.status < 300) {
+                  if (isJson) {
+                      var responseJson = JSON.parse(this.response);
+                      resolve(responseJson);
+                  }
+                  else {
+                      resolve(this.response);
+                  }
+              } else {
+                  if (isJson) {
+                      reject({
+                          status: this.status,
+                          statusText: this.statusText
+                      });
+                  }
+                  else {
+                      reject(this.statusText);
+                  }
+              }
+          };
+          xhr.onerror = function () {
+              if (isJson) {
+                  reject({
+                      status: this.status,
+                      statusText: this.statusText
+                  });
+              }
+              else {
+                  reject(this.statusText);
+              }
+          };
+          xhr.open("GET", encodeURI(url + formatParams(params)));
+          xhr.send();
+      });
+      return promise;
+  };
+  var ajaxGetJson = function (url, params) {
+      return ajaxGet(url, params, true);
+  };
+  var ajaxMethods = {
+      get: ajaxGet,
+      getJson: ajaxGetJson
+  };
   var getOrCreateElement = function(str) {
     var el;
     if (str.startsWith('<')) {
@@ -128,31 +176,9 @@ var q, Q;
     var el = document.querySelectorAll(selector);
     return el;
   };
+
   q = getOrCreateElement;
-  q.apa = function(hej) {
-    console.log(hej);
-  };
   q.all = getElements;
-  q.getJson = function (url, params, callback) {
-      
-      var promise = new Promise(function (resolve, reject) {
-          var xhr = new XMLHttpRequest();
-          xhr.onreadystatechange = function () {
-              if (xhr.readyState == 4 && xhr.status == 200) {
-                  console.log('jajaja');
-                  var responseJson = JSON.parse(xhr.responseText);
-                  callback(responseJson);
-                  //resolve(responseJson);
-              }
-              else {
-                  reject(xhr.responseText);
-              }
-          };
-          xhr.open("GET", encodeURI(url + formatParams(params)));
-          xhr.send();
-      });
-      
-      return promise;
-  };
+  q.ajax = ajaxMethods;
   Q = getElements;
 })();

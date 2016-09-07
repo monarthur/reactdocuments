@@ -53,8 +53,8 @@
 	Test.prototype = {
 	    apa: 'inget',
 	    init: function init() {
-	        this.apa = 'något1';
-	        q.ajax.get('/webapi/pages', { apa: 'hej', test: 1234 }).then(this.afterPromise.bind(this)).catch(this.afterPromise.bind(this));
+	        this.apa = 'något12345';
+	        q.ajax.getJson('/webapi/pages', { apa: 'hej', test: 1234 }).then(this.afterPromise.bind(this)).catch(this.afterPromise.bind(this));
 	        this.apa = 'något2';
 	    },
 	    after: function after(data) {

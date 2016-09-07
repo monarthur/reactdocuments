@@ -5,7 +5,7 @@ function Test() { };
 Test.prototype = {
     apa: 'inget',
     init: function () {
-        this.apa = 'något1';
+        this.apa = 'något12345';
         q.ajax.getJson('/webapi/pages', { apa: 'hej', test: 1234 })
             .then(this.afterPromise.bind(this))
             .catch(this.afterPromise.bind(this));

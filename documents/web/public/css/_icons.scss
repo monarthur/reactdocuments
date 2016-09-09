@@ -1,0 +1,389 @@
+﻿@import "_mixins.scss";
+
+.icon {
+    @include icon;
+
+    &.th-one:before {
+        content: "\e900";
+    }
+
+    &.th-three:before {
+        content: "\e901";
+    }
+
+    &.th-two:before {
+        content: "\e902";
+    }
+
+    &.home:before {
+        content: "\e903";
+    }
+
+    &.home5:before {
+        content: "\e904";
+    }
+
+    &.home7:before {
+        content: "\e905";
+    }
+
+    &.magazine:before {
+        content: "\e906";
+    }
+
+    &.pencil:before {
+        content: "\e907";
+    }
+
+    &.image2:before {
+        content: "\e908";
+    }
+
+    &.images2:before {
+        content: "\e909";
+    }
+
+    &.play:before {
+        content: "\e90a";
+    }
+
+    &.bullhorn:before {
+        content: "\e90b";
+    }
+
+    &.file-text:before {
+        content: "\e90c";
+    }
+
+    &.profile:before {
+        content: "\e90d";
+    }
+
+    &.file-empty:before {
+        content: "\e90e";
+    }
+
+    &.file-empty2:before {
+        content: "\e90f";
+    }
+
+    &.file-text3:before {
+        content: "\e910";
+    }
+
+    &.file-picture:before {
+        content: "\e911";
+    }
+
+    &.file-music:before {
+        content: "\e912";
+    }
+
+    &.file-play:before {
+        content: "\e913";
+    }
+
+    &.file-spreadsheet:before {
+        content: "\e914";
+    }
+
+    &.price-tag2:before {
+        content: "\e915";
+    }
+
+    &.price-tag3:before {
+        content: "\e916";
+    }
+
+    &.location:before {
+        content: "\e917";
+    }
+
+    &.map5:before {
+        content: "\e918";
+    }
+
+    &.calendar:before {
+        content: "\e919";
+    }
+
+    &.calendar2:before {
+        content: "\e91a";
+    }
+
+    &.user:before {
+        content: "\e91b";
+    }
+
+    &.users4:before {
+        content: "\e91c";
+    }
+
+    &.quotes-right:before {
+        content: "\e91d";
+    }
+
+    &.search2:before {
+        content: "\e91e";
+    }
+
+    &.search3:before {
+        content: "\e91f";
+    }
+
+    &.zoom-in3:before {
+        content: "\e920";
+    }
+
+    &.zoom-out3:before {
+        content: "\e921";
+    }
+
+    &.lock5:before {
+        content: "\e922";
+    }
+
+    &.unlocked2:before {
+        content: "\e923";
+    }
+
+    &.wrench:before {
+        content: "\e924";
+    }
+
+    &.cogs:before {
+        content: "\e925";
+    }
+
+    &.cog2:before {
+        content: "\e926";
+    }
+
+    &.stats-dots:before {
+        content: "\e927";
+    }
+
+    &.lamp8:before {
+        content: "\e928";
+    }
+
+    &.bin:before {
+        content: "\e929";
+    }
+
+    &.puzzle:before {
+        content: "\e92a";
+    }
+
+    &.puzzle2:before {
+        content: "\e92b";
+    }
+
+    &.clipboard3:before {
+        content: "\e92c";
+    }
+
+    &.clipboard6:before {
+        content: "\e92d";
+    }
+
+    &.list2:before {
+        content: "\e92e";
+    }
+
+    &.more:before {
+        content: "\e92f";
+    }
+
+    &.more2:before {
+        content: "\e930";
+    }
+
+    &.grid6:before {
+        content: "\e931";
+    }
+
+    &.menu:before {
+        content: "\e932";
+    }
+
+    &.menu7:before {
+        content: "\e933";
+    }
+
+    &.link:before {
+        content: "\e934";
+    }
+
+    &.point-up:before {
+        content: "\e935";
+    }
+
+    &.drag-left-right:before {
+        content: "\e95d";
+    }
+
+    &.move:before {
+        content: "\e95e";
+    }
+
+    &.plus:before {
+        content: "\e936";
+    }
+
+    &.minus:before {
+        content: "\e937";
+    }
+
+    &.plus2:before {
+        content: "\e938";
+    }
+
+    &.minus2:before {
+        content: "\e939";
+    }
+
+    &.plus-circle:before {
+        content: "\e93a";
+    }
+
+    &.plus-circle2:before {
+        content: "\e93b";
+    }
+
+    &.info:before {
+        content: "\e93c";
+    }
+
+    &.cancel-circle:before {
+        content: "\e93d";
+    }
+
+    &.cancel-circle2:before {
+        content: "\e93e";
+    }
+
+    &.cross:before {
+        content: "\e93f";
+    }
+
+    &.cross2:before {
+        content: "\e940";
+    }
+
+    &.checkmark:before {
+        content: "\e941";
+    }
+
+    &.eject:before {
+        content: "\e942";
+    }
+
+    &.arrow-right:before {
+        content: "\e943";
+    }
+
+    &.arrow-right2:before {
+        content: "\e944";
+    }
+
+    &.arrow-right5:before {
+        content: "\e945";
+    }
+
+    &.arrow-down5:before {
+        content: "\e946";
+    }
+
+    &.arrow-up-left:before {
+        content: "\e947";
+    }
+
+    &.arrow-down-right:before {
+        content: "\e948";
+    }
+
+    &.arrow-up-left3:before {
+        content: "\e949";
+    }
+
+    &.arrow-down-right3:before {
+        content: "\e94a";
+    }
+
+    &.arrow-up12:before {
+        content: "\e94b";
+    }
+
+    &.arrow-right12:before {
+        content: "\e94c";
+    }
+
+    &.arrow-down12:before {
+        content: "\e94d";
+    }
+
+    &.arrow-left12:before {
+        content: "\e94e";
+    }
+
+    &.enter4:before {
+        content: "\e94f";
+    }
+
+    &.move-up:before {
+        content: "\e950";
+    }
+
+    &.move-down:before {
+        content: "\e951";
+    }
+
+    &.share3:before {
+        content: "\e952";
+    }
+
+    &.facebook2:before {
+        content: "\e953";
+    }
+
+    &.instagram:before {
+        content: "\e954";
+    }
+
+    &.twitter:before {
+        content: "\e955";
+    }
+
+    &.rss2:before {
+        content: "\e956";
+    }
+
+    &.youtube2:before {
+        content: "\e957";
+    }
+
+    &.vimeo:before {
+        content: "\e958";
+    }
+
+    &.soundcloud:before {
+        content: "\e95f";
+    }
+
+    &.file-pdf:before {
+        content: "\e959";
+    }
+
+    &.file-openoffice:before {
+        content: "\e95a";
+    }
+
+    &.file-word:before {
+        content: "\e95b";
+    }
+
+    &.file-excel:before {
+        content: "\e95c";
+    }
+}

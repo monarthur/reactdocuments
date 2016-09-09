@@ -11,6 +11,9 @@ $color-bg: $color-white;
 $color-bg-secondary: $color-lightgrey;
 $color-text: $color-darkgrey;
 
+$color-border-medium: #aaa;
+$color-border-light: #e4e4e4;
+
 /* === TEXT === */
 //$font-primary: 'Open Sans', sans-serif;
 //$font-heading: 'Libra Baskerville', serif;
@@ -18,3 +21,9 @@ $font-primary: 'Source Sans Pro', sans-serif;
 $font-heading: 'Lora', serif;
 
 $max-width: 1200px;
+
+$gap: 20px;
+$gap-l: 40px;
+$gap-xl: 60px;
+$gap-sm: 10px;
+$gap-xs: 5px;

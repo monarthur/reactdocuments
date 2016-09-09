@@ -25,10 +25,20 @@ var webApiRouter = express.Router();
 webApiRouter.get('/', function (req, res) {
     res.json({ message: 'This is the Page API' });
 });
+var apiDefaults = {
+    orderBy: '-modifiedDate',
+    take: 5,
+    skip: 0
+};
 webApiRouter.route('/pages')
 	.get(function (req, res) {
 	    console.log('get pages');
-	    Page.find().exec(function (err, pages) {
+	    var take = req.query.take || apiDefaults.take;
+	    var skip = req.query.skip || apiDefaults.skip;
+	    var orderBy = req.query.orderBy || apiDefaults.orderBy;
+	    var mongooseSort = { modifiedDate: 'asc' };
+	    console.log(`take: ${take}, skip: ${skip}, orderBy: ${orderBy}`);
+	    Page.find().sort(orderBy).skip(skip).limit(take).exec(function (err, pages) {
 	        if (err)
 	            res.send(err);
 

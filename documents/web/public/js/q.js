@@ -20,7 +20,25 @@ var q, Q;
       });
     };
   }
-    //html element helpers
+  //Date helpers
+  if (typeof Date.prototype.toDateTimeString != 'function') {
+      Date.prototype.toDateTimeString = function (includeTime) {
+          var pubDateY = this.getFullYear(), pubDateM = this.getMonth() + 1, pubDateD = this.getDate();
+          var pubDateStr = pubDateY + "-" + formatNumber(pubDateM) + "-" + formatNumber(pubDateD);
+
+          if (includeTime) {
+              var timeStr = formatNumber(this.getHours()) + ':' + formatNumber(this.getMinutes());
+              pubDateStr += ' ' + timeStr;
+          }
+          return pubDateStr;
+
+          function formatNumber(number) {
+              var newNumber = (number < 10) ? "0" + number : "" + number;
+              return newNumber;
+          }
+      };
+  }
+  //html element helpers
   if (typeof HTMLElement.prototype.hasClass != 'function') {
     HTMLElement.prototype.hasClass = function(c) {
       return this.classList.contains(c);

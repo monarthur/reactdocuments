@@ -1,5 +1,7 @@
 @import 'fonts';
 @import 'variables';
+@import 'mixins';
+@import 'icons';
 @import 'reset';
 
 body {
@@ -9,15 +11,94 @@ body {
 	font-size: 16px;
 	line-height: 1.3;
 }
-h1,h2,h3 {
+h1,h2,h3,h4 {
 	font-family: $font-heading;
 	font-weight: 400;
 }
 h1 {
 	font-size: 3em;
 }
+h2 {
+    font-size: 2em;
+}
+h3 {
+    font-size: 1.5em;
+}
+h4 {
+    text-transform: uppercase;
+}
+
+input, select, textarea {
+    padding: $gap-xs;
+}
 
 .inner {
 	max-width: $max-width;
 	margin: 0 auto;
+    padding: $gap;
+}
+
+.documents {
+    .header {
+        margin-bottom: $gap;
+    }
+    .filter-controls {
+        margin-bottom: $gap;
+        display: flex;
+        padding: $gap;
+        border: solid 1px $color-border-light;
+        background-color: $color-bg-secondary;
+
+        .filter-item {
+            display: flex;
+            flex-direction: column;
+
+            &.type-text {
+                flex: 1;
+            }
+
+            &:not(:last-child) {
+                margin-right: $gap;
+            }
+
+            label {
+                display: block;
+                padding-bottom: $gap-xs;
+            }
+            .inline-label, input[type="checkbox"] + label, input[type="radio"] + label {
+                display: inline-block;
+                padding-left: $gap-xs;
+            }
+        }
+    }
+    .document-list {
+        border: solid 1px $color-border-medium;
+        li {
+            padding: $gap;
+            display: flex;
+            
+            .headline {
+                width: 50%;
+            }
+            .publish-date, .modified-date, .tools {
+                flex: 1;
+            }
+
+            &:nth-child(odd) {
+                background-color: $color-lightgrey;
+            }
+
+            &:not(:last-child) {
+                border-bottom: solid 1px $color-border-light;
+            }
+
+            &.list-header {
+                font-weight: bold;
+                background-color: $color-primary;
+                color: $color-bg;
+                text-transform: uppercase;
+                border-bottom-color: $color-border-medium;
+            }
+        }
+    }
 }

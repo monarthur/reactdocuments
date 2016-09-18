@@ -29,7 +29,20 @@ h4 {
 }
 
 input, select, textarea {
-    padding: $gap-xs;
+    padding: $gap-sm;
+    font-size: 1.15em;
+}
+
+input[type='button'], input[type='submit'], button {
+    //background: $color-bg-secondary;
+    //border: solid 4px $color-accent;
+    //color: $color-accent;
+    border: none;
+    background: $color-accent;
+    color: $color-bg-secondary;
+    padding: $gap-sm $gap;
+    font-size: 1.25em;
+    border-radius: $gap;
 }
 
 .inner {
@@ -39,14 +52,12 @@ input, select, textarea {
 }
 
 .documents {
-    .header {
-        margin-bottom: $gap;
-    }
+    margin-bottom: $gap;
     .filter-controls {
-        margin-bottom: $gap;
         display: flex;
         padding: $gap;
         border: solid 1px $color-border-light;
+        border-bottom: none;
         background-color: $color-bg-secondary;
 
         .filter-item {
@@ -79,9 +90,16 @@ input, select, textarea {
             
             .headline {
                 width: 50%;
+                overflow: hidden;
+                white-space: nowrap;
+                text-overflow: ellipsis;
+                padding-right: $gap-sm;
             }
-            .publish-date, .modified-date, .tools {
+            .publish-date, .modified-date {
                 flex: 1;
+            }
+            .tools {
+                flex: inherit;
             }
 
             &:nth-child(odd) {
@@ -100,5 +118,20 @@ input, select, textarea {
                 border-bottom-color: $color-border-medium;
             }
         }
+    }
+}
+
+.create-document {
+    display: flex;
+    flex-direction: column;
+    padding: $gap;
+    border: solid 1px $color-border-light;
+
+    .header {
+        margin-bottom: $gap;
+    }
+
+    .form-item:not(:last-child) {
+        margin-bottom: $gap;
     }
 }

@@ -2,10 +2,24 @@
 
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { Provider } from 'react-redux';
+import { createStore } from 'redux';
+import reducers from './reducers/reducers';
 import FilterableDocumentList from './components/FilterableDocumentList';
+import App from './components/App';
 
-ReactDOM.render(<FilterableDocumentList />, q('#app'));
+let store = createStore(reducers);
 
+ReactDOM.render((
+    <Provider store={store}>
+        <App />
+    </Provider>),
+    q('#app'));
+
+
+
+
+/*
 class Test {
     constructor(initObject = { 
         apa: 'apa', 
@@ -24,5 +38,5 @@ class Test {
         console.log('ajax efter promiseee!', data, `hej ${this.apa}`);
     }
 }
-
+*/
 //var test = new Test();

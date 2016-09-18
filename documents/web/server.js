@@ -36,9 +36,9 @@ webApiRouter.route('/pages')
 	    var take = req.query.take || apiDefaults.take;
 	    var skip = req.query.skip || apiDefaults.skip;
 	    var orderBy = req.query.orderBy || apiDefaults.orderBy;
-	    var mongooseSort = { modifiedDate: 'asc' };
 	    console.log(`take: ${take}, skip: ${skip}, orderBy: ${orderBy}`);
-	    Page.find().sort(orderBy).skip(skip).limit(take).exec(function (err, pages) {
+	    var filter = req.query.searchText ? { 'headline': { '$regex': req.query.searchText, '$options': 'i' } } : {};
+	    Page.find(filter).sort(orderBy).skip(skip).limit(take).exec(function (err, pages) {
 	        if (err)
 	            res.send(err);
 
@@ -57,6 +57,22 @@ webApiRouter.route('/pages')
                 res.send(err);
 
             res.json({ message: 'Page created!', page: page });
+        });
+
+    })
+    .put(function (req, res) {
+        var page = new Page();
+        if (req.body.headline)
+            page.headline = req.body.headline;
+        if (req.body.headline)
+            page.description = req.body.description;
+        var currentDate = new Date();
+        page.modifiedDate = currentDate;
+        page.save(function (err) {
+            if (err)
+                res.send(err);
+
+            res.json({ message: 'Page updated!', page: page });
         });
 
     });

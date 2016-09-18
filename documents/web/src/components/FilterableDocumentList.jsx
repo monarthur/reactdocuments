@@ -1,43 +1,57 @@
 ﻿import React from 'react';
+import { connect } from 'react-redux';
 import DocumentListFilterControls from './DocumentListFilterControls';
 import DocumentList from './DocumentList';
+import * as actions from '../actions/actions';
 
-export default class FilterableDocumentList extends React.Component {
+class FilterableDocumentList extends React.Component {
+    //static contextTypes = {
+    //    store: React.PropTypes.object
+    //}
     constructor() {
         super();
-        this.state = { documents: [], numItems: 3 };
+        this.searchTextChangedTimeout = 0;
     }
-    componentDidMount() {
-        this.fetchDocuments();
+    
+    numItemsChanged(e) {
+        console.log('numItemsChanged');
+        const numItems = e.target.value
+        console.log(numItems);
+        this.props.dispatchChangeNumItems(numItems);
     }
-    componentWillReceiveProps(nextProps) {
-        console.log('props!');
-        console.log(nextProps);
-    }
-    fetchDocuments() {
-        q.ajax.getJson('/webapi/pages', { take: this.state.numItems })
-            .then(this.onGetPagesSuccess.bind(this))
-            .catch(this.onGetPagesError.bind(this));
-    }
-    onGetPagesSuccess(data) {
-        this.setState({documents: data});
-    }
-    onGetPagesError(data) {
-        this.setState({documents: [{headline: `Något gick fel: ${data}`}]});
-    }
-    onNumItemsChange(numItems) {
-console.log('onNumItemsChange',numItems);
-        this.setState({numItems: numItems});
-        this.fetchDocuments();
+    searchTextChanged(e) {
+        console.log('searchTextChanged');
+        const searchText = e.target.value
+        console.log(searchText);
+        clearTimeout(this.searchTextChangedTimeout);
+        this.searchTextChangedTimeout = setTimeout(this.props.dispatchChangeSearchText.bind(this, searchText), 500);
     }
     render() {
-console.log('render');
+        console.log('render FILTERABLEDOCLIST');
+        //const store = this.context.store;
+        //const { documents, numItems, searchText } = store.getState();
+
         return (
             <div className="documents">
-                <h3 className="header">Dokument här vaaa</h3>
-                <DocumentListFilterControls numItemsChangeHandler={this.onNumItemsChange.bind(this)} />
-                <DocumentList documents={this.state.documents} />
+                <DocumentListFilterControls numItems={this.props.numItems} searchText={this.props.searchText} 
+                onNumItemsChanged={this.numItemsChanged.bind(this)} onSearchTextChanged={this.searchTextChanged.bind(this)} />
+                <DocumentList documents={this.props.documents} />
             </div>
         );
     }
 }
+
+
+function mapStateToProps(state) {
+    const { documents, numItems, searchText , isFetching} = state;
+    return { documents, numItems, searchText, isFetching };
+}
+function mapDispatchToProps(dispatch) {
+    return {
+        dispatchChangeNumItems: numItems => dispatch(actions.changeNumItems(numItems)),
+        dispatchChangeSearchText: searchText => dispatch(actions.changeSearchText(searchText))
+    };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(FilterableDocumentList)
+//export default connect()(App)

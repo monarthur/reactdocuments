@@ -6,7 +6,7 @@ var PageSchema = new Schema({
     description: String,
     content: String,
     blurbImage: String,
-    publishdate: Date,
+    publishDate: Date,
     modifiedDate: Date
 });
 

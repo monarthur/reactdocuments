@@ -47,8 +47,14 @@ webApiRouter.route('/pages')
 	})
     .post(function (req, res) {
         var page = new Page();
-        page.headline = req.body.headline;
-        page.description = req.body.description;
+        if (req.body.headline)
+            page.headline = req.body.headline;
+        else {
+            res.send('Headline is required!');
+            return;
+        }
+        page.description = req.body.description || '';
+        page.content = req.body.content || '';
         var currentDate = new Date();
         page.publishDate = currentDate;
         page.modifiedDate = currentDate;
@@ -57,22 +63,6 @@ webApiRouter.route('/pages')
                 res.send(err);
 
             res.json({ message: 'Page created!', page: page });
-        });
-
-    })
-    .put(function (req, res) {
-        var page = new Page();
-        if (req.body.headline)
-            page.headline = req.body.headline;
-        if (req.body.headline)
-            page.description = req.body.description;
-        var currentDate = new Date();
-        page.modifiedDate = currentDate;
-        page.save(function (err) {
-            if (err)
-                res.send(err);
-
-            res.json({ message: 'Page updated!', page: page });
         });
 
     });

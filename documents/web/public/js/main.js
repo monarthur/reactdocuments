@@ -62,11 +62,11 @@
 	
 	var _reducers2 = _interopRequireDefault(_reducers);
 	
-	var _FilterableDocumentList = __webpack_require__(201);
+	var _FilterableDocumentList = __webpack_require__(200);
 	
 	var _FilterableDocumentList2 = _interopRequireDefault(_FilterableDocumentList);
 	
-	var _App = __webpack_require__(200);
+	var _App = __webpack_require__(205);
 	
 	var _App2 = _interopRequireDefault(_App);
 	
@@ -22804,6 +22804,8 @@
 	    numItems: 3,
 	    searchText: '',
 	    isFetching: false,
+	    isCreating: false,
+	    documentCreated: false,
 	    newDocument: null
 	};
 	
@@ -22822,7 +22824,7 @@
 	            return newState;
 	            break;
 	        case 'REQUEST_DOCUMENTS':
-	            var newState = Object.assign({}, state, { isFetching: true });
+	            var newState = Object.assign({}, state, { isFetching: true, documentCreated: false });
 	            return newState;
 	            break;
 	        case 'RECEIVE_DOCUMENTS':
@@ -22830,11 +22832,11 @@
 	            return newState;
 	            break;
 	        case 'CREATE_DOCUMENT':
-	            var newState = Object.assign({}, state, { newDocument: action.document });
+	            var newState = Object.assign({}, state, { newDocument: action.document, isCreating: true });
 	            return newState;
 	            break;
 	        case 'DOCUMENT_CREATED':
-	            var newState = Object.assign({}, state, { newDocument: null });
+	            var newState = Object.assign({}, state, { newDocument: null, isCreating: false, documentCreated: true });
 	            return newState;
 	            break;
 	        default:
@@ -22862,146 +22864,15 @@
 	
 	var _reactRedux = __webpack_require__(170);
 	
-	var _FilterableDocumentList = __webpack_require__(201);
-	
-	var _FilterableDocumentList2 = _interopRequireDefault(_FilterableDocumentList);
-	
-	var _CreateDocumentForm = __webpack_require__(206);
-	
-	var _CreateDocumentForm2 = _interopRequireDefault(_CreateDocumentForm);
-	
-	var _actions = __webpack_require__(205);
-	
-	var actions = _interopRequireWildcard(_actions);
-	
-	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
-	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-	
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-	
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-	
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-	
-	var App = function (_React$Component) {
-	    _inherits(App, _React$Component);
-	
-	    function App() {
-	        _classCallCheck(this, App);
-	
-	        return _possibleConstructorReturn(this, Object.getPrototypeOf(App).apply(this, arguments));
-	    }
-	
-	    _createClass(App, [{
-	        key: 'componentDidMount',
-	        value: function componentDidMount() {
-	            var store = this.context.store;
-	            store.subscribe(this.updateApp.bind(this));
-	        }
-	    }, {
-	        key: 'componentWillReceiveProps',
-	        value: function componentWillReceiveProps(nextProps) {
-	            //if (this.props.numItems !== nextProps.numItems || this.props.searchText !== nextProps.searchText) {
-	            var numItems = nextProps.numItems;
-	            var searchText = nextProps.searchText;
-	
-	            console.log({ numItems: numItems, searchText: searchText });
-	            this.fetchDocuments({ numItems: numItems, searchText: searchText });
-	            //}
-	        }
-	    }, {
-	        key: 'updateApp',
-	        value: function updateApp() {
-	            console.log('subscribe callback!');
-	            //const { numItems, searchText } = this.context.store.getState();
-	            //console.log({ numItems, searchText });
-	            //this.fetchDocuments({ numItems, searchText });
-	        }
-	    }, {
-	        key: 'fetchDocuments',
-	        value: function fetchDocuments(params) {
-	            console.log('fetch', params.numItems);
-	            q.ajax.getJson('/webapi/pages', { take: params.numItems, searchText: params.searchText }).then(this.onGetPagesSuccess.bind(this)).catch(this.onGetPagesError.bind(this));
-	        }
-	    }, {
-	        key: 'onGetPagesSuccess',
-	        value: function onGetPagesSuccess(data) {
-	            console.log('success!', data);
-	            this.props.dispatchReceiveDocuments(data);
-	        }
-	    }, {
-	        key: 'onGetPagesError',
-	        value: function onGetPagesError(data) {
-	            this.setState({ documents: [{ headline: 'Något gick fel: ' + data }] });
-	        }
-	    }, {
-	        key: 'render',
-	        value: function render() {
-	            return _react2.default.createElement(
-	                'div',
-	                { className: 'wrapper' },
-	                _react2.default.createElement(_FilterableDocumentList2.default, null),
-	                _react2.default.createElement(_CreateDocumentForm2.default, null)
-	            );
-	        }
-	    }]);
-	
-	    return App;
-	}(_react2.default.Component);
-	
-	App.contextTypes = {
-	    store: _react2.default.PropTypes.object
-	};
-	exports.default = App;
-	
-	
-	function mapStateToProps(state) {
-	    var documents = state.documents;
-	    var numItems = state.numItems;
-	    var searchText = state.searchText;
-	    var isFetching = state.isFetching;
-	    var newDocument = state.newDocument;
-	
-	    return { documents: documents, numItems: numItems, searchText: searchText, isFetching: isFetching, newDocument: newDocument };
-	}
-	function mapDispatchToProps(dispatch) {
-	    return {
-	        dispatchReceiveDocuments: function dispatchReceiveDocuments(documents) {
-	            return dispatch(actions.receiveDocuments(documents));
-	        }
-	    };
-	}
-	
-	exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(App);
-
-/***/ },
-/* 201 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	Object.defineProperty(exports, "__esModule", {
-	    value: true
-	});
-	
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-	
-	var _react = __webpack_require__(1);
-	
-	var _react2 = _interopRequireDefault(_react);
-	
-	var _reactRedux = __webpack_require__(170);
-	
-	var _DocumentListFilterControls = __webpack_require__(202);
+	var _DocumentListFilterControls = __webpack_require__(201);
 	
 	var _DocumentListFilterControls2 = _interopRequireDefault(_DocumentListFilterControls);
 	
-	var _DocumentList = __webpack_require__(203);
+	var _DocumentList = __webpack_require__(202);
 	
 	var _DocumentList2 = _interopRequireDefault(_DocumentList);
 	
-	var _actions = __webpack_require__(205);
+	var _actions = __webpack_require__(204);
 	
 	var actions = _interopRequireWildcard(_actions);
 	
@@ -23091,7 +22962,7 @@
 	//export default connect()(App)
 
 /***/ },
-/* 202 */
+/* 201 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -23183,7 +23054,7 @@
 	exports.default = DocumentListFilterControls;
 
 /***/ },
-/* 203 */
+/* 202 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -23198,7 +23069,7 @@
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _DocumentItem = __webpack_require__(204);
+	var _DocumentItem = __webpack_require__(203);
 	
 	var _DocumentItem2 = _interopRequireDefault(_DocumentItem);
 	
@@ -23258,7 +23129,7 @@
 	exports.default = DocumentList;
 
 /***/ },
-/* 204 */
+/* 203 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -23331,7 +23202,7 @@
 	exports.default = DocumentItem;
 
 /***/ },
-/* 205 */
+/* 204 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -23387,6 +23258,171 @@
 	}
 
 /***/ },
+/* 205 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	
+	var _react = __webpack_require__(1);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var _reactRedux = __webpack_require__(170);
+	
+	var _FilterableDocumentList = __webpack_require__(200);
+	
+	var _FilterableDocumentList2 = _interopRequireDefault(_FilterableDocumentList);
+	
+	var _CreateDocumentForm = __webpack_require__(206);
+	
+	var _CreateDocumentForm2 = _interopRequireDefault(_CreateDocumentForm);
+	
+	var _actions = __webpack_require__(204);
+	
+	var actions = _interopRequireWildcard(_actions);
+	
+	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	
+	var App = function (_React$Component) {
+	    _inherits(App, _React$Component);
+	
+	    function App() {
+	        _classCallCheck(this, App);
+	
+	        return _possibleConstructorReturn(this, Object.getPrototypeOf(App).apply(this, arguments));
+	    }
+	
+	    _createClass(App, [{
+	        key: 'componentDidMount',
+	        value: function componentDidMount() {
+	            var store = this.context.store;
+	            store.subscribe(this.updateApp.bind(this));
+	        }
+	    }, {
+	        key: 'componentWillReceiveProps',
+	        value: function componentWillReceiveProps(nextProps) {
+	            if (nextProps.newDocument != null && !this.props.isCreating) {
+	                console.log('new document!', nextProps.newDocument);
+	                this.createDocument(nextProps.newDocument);
+	            } else if ((nextProps.documentCreated || this.props.numItems !== nextProps.numItems || this.props.searchText !== nextProps.searchText) && !this.props.isFetching) {
+	                var numItems = nextProps.numItems;
+	                var searchText = nextProps.searchText;
+	
+	                console.log({ numItems: numItems, searchText: searchText });
+	                this.fetchDocuments({ numItems: numItems, searchText: searchText });
+	            }
+	        }
+	    }, {
+	        key: 'updateApp',
+	        value: function updateApp() {
+	            console.log('subscribe callback!');
+	            //const { numItems, searchText } = this.context.store.getState();
+	            //console.log({ numItems, searchText });
+	            //this.fetchDocuments({ numItems, searchText });
+	        }
+	    }, {
+	        key: 'fetchDocuments',
+	        value: function fetchDocuments(params) {
+	            console.log('fetch', params.numItems);
+	            this.props.dispatchRequestDocuments(params);
+	            q.ajax.getJson('/webapi/pages', { take: params.numItems, searchText: params.searchText }).then(this.onGetPagesSuccess.bind(this)).catch(this.onGetPagesError.bind(this));
+	        }
+	    }, {
+	        key: 'createDocument',
+	        value: function createDocument(document) {
+	            //this.props.dispatchCreateDocument(document);
+	            q.ajax.postJson('/webapi/pages', document).then(this.onCreatePageSuccess.bind(this)).catch(this.onCreatePageError.bind(this));
+	        }
+	    }, {
+	        key: 'onGetPagesSuccess',
+	        value: function onGetPagesSuccess(data) {
+	            console.log('getsuccess!', data);
+	            this.props.dispatchReceiveDocuments(data);
+	        }
+	    }, {
+	        key: 'onGetPagesError',
+	        value: function onGetPagesError(data) {
+	            console.log('geterror!', data);
+	            this.setState({ documents: [{ headline: 'Något gick fel: ' + data }] });
+	        }
+	    }, {
+	        key: 'onCreatePageSuccess',
+	        value: function onCreatePageSuccess(data) {
+	            console.log('createsuccess!', data);
+	            this.props.dispatchDocumentCreated(data);
+	        }
+	    }, {
+	        key: 'onCreatePageError',
+	        value: function onCreatePageError(data) {
+	            console.log('createerror!', data);
+	            this.setState({ documents: [{ headline: 'Något gick fel: ' + data }] });
+	        }
+	    }, {
+	        key: 'render',
+	        value: function render() {
+	            return _react2.default.createElement(
+	                'div',
+	                { className: 'wrapper' },
+	                _react2.default.createElement(_FilterableDocumentList2.default, null),
+	                _react2.default.createElement(_CreateDocumentForm2.default, null)
+	            );
+	        }
+	    }]);
+	
+	    return App;
+	}(_react2.default.Component);
+	
+	App.contextTypes = {
+	    store: _react2.default.PropTypes.object
+	};
+	exports.default = App;
+	
+	
+	function mapStateToProps(state) {
+	    var documents = state.documents;
+	    var numItems = state.numItems;
+	    var searchText = state.searchText;
+	    var isFetching = state.isFetching;
+	    var isCreating = state.isCreating;
+	    var documentCreated = state.documentCreated;
+	    var newDocument = state.newDocument;
+	
+	    return { documents: documents, numItems: numItems, searchText: searchText, isFetching: isFetching, isCreating: isCreating, documentCreated: documentCreated, newDocument: newDocument };
+	}
+	function mapDispatchToProps(dispatch) {
+	    return {
+	        dispatchRequestDocuments: function dispatchRequestDocuments(params) {
+	            return dispatch(actions.requestDocuments(params));
+	        },
+	        dispatchReceiveDocuments: function dispatchReceiveDocuments(documents) {
+	            return dispatch(actions.receiveDocuments(documents));
+	        },
+	        dispatchCreateDocument: function dispatchCreateDocument(document) {
+	            return dispatch(actions.createDocument(document));
+	        },
+	        dispatchDocumentCreated: function dispatchDocumentCreated(document) {
+	            return dispatch(actions.documentCreated(document));
+	        }
+	    };
+	}
+	
+	exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(App);
+
+/***/ },
 /* 206 */
 /***/ function(module, exports, __webpack_require__) {
 
@@ -23404,7 +23440,7 @@
 	
 	var _reactRedux = __webpack_require__(170);
 	
-	var _actions = __webpack_require__(205);
+	var _actions = __webpack_require__(204);
 	
 	var actions = _interopRequireWildcard(_actions);
 	

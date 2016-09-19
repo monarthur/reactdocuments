@@ -132,12 +132,76 @@ var q, Q;
       });
       return promise;
   };
+  var ajaxPostOrPut = function (url, postOrPut, data, isJson) {
+      postOrPut = postOrPut || 'POST';
+      var promise = new Promise(function (resolve, reject) {
+          var xhr = new XMLHttpRequest();
+          xhr.onload = function () {
+              if (this.status >= 200 && this.status < 300) {
+                  if (isJson) {
+                      var responseJson = JSON.parse(this.response);
+                      resolve(responseJson);
+                  }
+                  else {
+                      resolve(this.response);
+                  }
+              } else {
+                  if (isJson) {
+                      reject({
+                          status: this.status,
+                          statusText: this.statusText
+                      });
+                  }
+                  else {
+                      reject(this.statusText);
+                  }
+              }
+          };
+          xhr.onerror = function () {
+              if (isJson) {
+                  reject({
+                      status: this.status,
+                      statusText: this.statusText
+                  });
+              }
+              else {
+                  reject(this.statusText);
+              }
+          };
+          xhr.open(postOrPut, encodeURI(url));
+          if (isJson) {
+              xhr.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
+              xhr.send(JSON.stringify(data));
+          }
+          else {
+              xhr.setRequestHeader('Content-Type', 'text/plain;charset=UTF-8');
+              xhr.send(data);
+          }
+      });
+      return promise;
+  };
+  var ajaxPost = function (url, data, isJson) {
+      return ajaxPostOrPut(url, 'POST', data, isJson);
+  };
+  var ajaxPut = function (url, data, isJson) {
+      return ajaxPostOrPut(url, 'PUT', data, isJson);
+  };
+  var ajaxPostJson = function (url, data) {
+      return ajaxPost(url, data, true);
+  };
+  var ajaxPutJson = function (url, data) {
+      return ajaxPut(url, data, true);
+  };
   var ajaxGetJson = function (url, params) {
       return ajaxGet(url, params, true);
   };
   var ajaxMethods = {
       get: ajaxGet,
-      getJson: ajaxGetJson
+      getJson: ajaxGetJson,
+      post: ajaxPost,
+      postJson: ajaxPostJson,
+      put: ajaxPut,
+      putJson: ajaxPutJson
   };
   var getOrCreateElement = function(str) {
     var el;

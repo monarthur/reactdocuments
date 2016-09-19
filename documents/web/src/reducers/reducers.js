@@ -3,6 +3,8 @@
     numItems: 3,
     searchText: '',
     isFetching: false,
+    isCreating: false,
+    documentCreated: false,
     newDocument: null
 };
 
@@ -18,7 +20,7 @@ const reducers = function(state = defaultState, action) {
             return newState;
             break;
         case 'REQUEST_DOCUMENTS':
-            var newState = Object.assign({}, state, { isFetching: true });
+            var newState = Object.assign({}, state, { isFetching: true, documentCreated: false });
             return newState;
             break;
         case 'RECEIVE_DOCUMENTS':
@@ -26,11 +28,11 @@ const reducers = function(state = defaultState, action) {
             return newState;
             break;
         case 'CREATE_DOCUMENT':
-            var newState = Object.assign({}, state, { newDocument: action.document });
+            var newState = Object.assign({}, state, { newDocument: action.document, isCreating: true });
             return newState;
             break;
         case 'DOCUMENT_CREATED':
-            var newState = Object.assign({}, state, { newDocument: null });
+            var newState = Object.assign({}, state, { newDocument: null, isCreating: false, documentCreated: true });
             return newState;
             break;
         default:
